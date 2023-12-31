@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KanyeQuotesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/kanye', [KanyeQuotesController::class, 'index']);
+Route::get('/kanye/refresh', [KanyeQuotesController::class, 'refresh']);
+
+Route::fallback(function(){
+    return response()->json([
+        'error' => "Endpoint Not Found. Only '/api/kanye' and '/api/kanye/refresh' are available endpoints."
+    ], 404);
 });

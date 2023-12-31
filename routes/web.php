@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::fallback(function(){
+    return response()->json([
+        'error' => "Endpoint Not Found. Only '/api/kanye' and '/api/kanye/refresh' are available endpoints."
+    ], 404);
 });
