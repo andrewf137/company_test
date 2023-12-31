@@ -27,7 +27,7 @@ Run the following commands in a terminal pointing to the root folder of the proj
 
 1. Clone the repository:
     ````
-    git clone https://github.com/andrewf137/avrillo_test.git
+    git clone https://github.com/andrewf137/company_test.git
     ````
 2. "cd" to project folder.
 3. Run `composer install`.
