@@ -31,12 +31,13 @@ Run the following commands in a terminal pointing to the root folder of the proj
     ````
 2. "cd" to project folder.
 3. Run `composer install`.
-4. Add the following lines at the end of the .env file:
+4. Create a new file `.env` in the project folder and paste in it the content of `.env.example`. Then run `php artisan key:generate`.
+5. Add the following lines at the end of the `.env` file:
     ````
     KANYE_QUOTES_ENDPOINT='https://api.kanye.rest/'
     SECRET_TOKEN='123456'
     ````
-5. Run `php artisan serve` to launch a local server
+6. Run `php artisan serve` to launch a local server
 
 
 ## How to execute the available endpoints
