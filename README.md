@@ -1,66 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Requirements
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+* PHP >= 8.1
+* composer
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Build with
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* Laravel 10.10
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Available endpoints
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* `api/kanye`: to retrieve (cached) Kanye quotes
+* `api/kanye/refresh`: to retrieve new Kanye quotes
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## How to run tests
 
-## Laravel Sponsors
+Run the following commands in a terminal pointing to the root folder of the project:
+* `php artisan test`: to run all tests
+* `php artisan test --testsuite=Feature`: to run feature tests
+* `php artisan test --testsuite=Unit`: to run unit tests
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+## Instructions
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+1. Clone the repository:
+    ````
+    git clone https://github.com/andrewf137/avrillo_test.git
+    ````
+2. "cd" to project folder.
+3. Run `composer install`.
+4. Add the following lines at the end of the .env file:
+    ````
+    KANYE_QUOTES_ENDPOINT='https://api.kanye.rest/'
+    SECRET_TOKEN='123456'
+    ````
+5. Run `php artisan serve` to launch a local server
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## How to execute the available endpoints
 
-## Code of Conduct
+### Define postman requests
+   * to retrieve 5 Kanye quotes (first time it will be new quotes, next time will be the same cached quotes):
+     * GET `http://127.0.0.1:8000/api/kanye`
+     * header `Authorization: Bearer 123456`
+   * to retrieve new 5 Kanye quotes:
+     * GET `http://127.0.0.1:8000/api/kanye/refresh`
+     * header `Authorization: Bearer 123456`
+### Import postman requests
+   * from file `company_test.postman_collection.json` (included in the project folder)
+### From the console
+    ````
+    curl -H 'content-type: application/json' -H 'Accept: application/json' -H 'Authorization: Bearer 123456' -v -X GET http://127.0.0.1:8000/api/kanye
+    curl -H 'content-type: application/json' -H 'Accept: application/json' -H 'Authorization: Bearer 123456' -v -X GET http://127.0.0.1:8000/api/kanye/refresh
+    ````
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+## Notes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* The third party rest api is defined in the .env file.
+* The api token is defined in the .env file (only that token `123456` will work).
+* The token validation is enforced via the TokenIsValid middleware.
+* I didn't implement issuing and refreshing of token as it was not indicated.
+* I didn't implement user login as it was not indicated.
+* The Laravel Manager Design Pattern was implemented via `KanyeApiRestDriver` and `KanyeQuotesManager` classes and the config file `config/kanye-quotes.php`. The `KanyeQuotesManager` was registered in `AppServiceProvider`.
+* The following is the list of files that have been added (or updated) by me to a fresh Laravel 10.10 installation:
+    ````
+    ├── app
+    │   ├── Exceptions
+    │   │   ├── InvalidTokenException.php
+    │   ├── Http
+    │   │   ├── Controllers
+    │   │   │   ├── KanyeQuotesController.php
+    │   │   ├── Middleware
+    │   │   │   ├── TokenIsValid.php
+    │   │   ├── kernel.php
+    │   ├── Interfaces
+    │   │   ├── KanyeQuotesDriver.php
+    │   ├── Services
+    │   │   ├── KanyeQuotes
+    │   │   │   ├── KanyeApiRestDriver.php
+    │   │   │   ├── KanyeQuotesManager.php
+    ├── config
+    │   ├── kanye-quotes.php
+    ├── routes
+    │   ├── api.php
+    │   ├── web.php
+    ├── tests
+    │   ├── Feature
+    │   │   ├── KanyeQuotesTest.php
+    │   ├── Unit
+    │   │   ├── KanyeApiRestDriverTest.php
+    │   │   ├── KanyeQuotesManagerTest.php
+    └── .env.testing
+    ````
+
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This repository is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
