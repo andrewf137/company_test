@@ -61,9 +61,9 @@ Run the following commands in a terminal pointing to the root folder of the proj
 ## Notes
 
 * The third party rest api is defined in the .env file.
-* The api token is defined in the .env file (only that token `123456` will work).
-* The token validation is enforced via the TokenIsValid middleware.
-* I didn't implement issuing and refreshing of token as it was not indicated.
+* The api token is defined in the .env file (only token `123456` will work).
+* The token validation is enforced via the `TokenIsValid` middleware.
+* I didn't implement issuing and refreshing of tokens as it was not indicated.
 * I didn't implement user login as it was not indicated.
 * The Laravel Manager Design Pattern was implemented via `KanyeApiRestDriver` and `KanyeQuotesManager` classes and the config file `config/kanye-quotes.php`. The `KanyeQuotesManager` was registered in `AppServiceProvider`.
 * The following is the list of files that have been added (or updated) by me to a fresh Laravel 10.10 installation:
@@ -94,7 +94,7 @@ Run the following commands in a terminal pointing to the root folder of the proj
     │   ├── Unit
     │   │   ├── KanyeApiRestDriverTest.php
     │   │   ├── KanyeQuotesManagerTest.php
-    └── .env.testing
+    └── README.md
     ````
 
 
