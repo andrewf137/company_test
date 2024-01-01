@@ -31,7 +31,7 @@ Run the following commands in a terminal pointing to the root folder of the proj
     ````
 2. "cd" to project folder.
 3. Run `composer install`.
-4. Create a new file `.env` in the project folder and paste in it the content of `.env.example`. Then run `php artisan key:generate`.
+4. Create a new file `.env` in the project folder with the contents of `.env.example`. Then run `php artisan key:generate`.
 5. Add the following lines at the end of the `.env` file:
     ````
     KANYE_QUOTES_ENDPOINT='https://api.kanye.rest/'
@@ -94,6 +94,7 @@ Run the following commands in a terminal pointing to the root folder of the proj
     │   ├── Unit
     │   │   ├── KanyeApiRestDriverTest.php
     │   │   ├── KanyeQuotesManagerTest.php
+    ├── company_test.postman_collection.json
     └── README.md
     ````
 
